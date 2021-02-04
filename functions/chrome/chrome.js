@@ -17,18 +17,11 @@ exports.handler = async (event, context) => {
 
     // Do stuff with headless chrome
     const page = await browser.newPage()
-    const targetUrl = 'https://davidwells.io'
-
-    // Goto page and then do stuff
-    await page.goto(targetUrl, {
-      waitUntil: ["domcontentloaded", "networkidle0"]
-    })
-
-    await page.waitForSelector('#phenomic')
-
-    theTitle = await page.title();
-
-    console.log('done on page', theTitle)
+    
+    await page.goto('https://kuvo.com/playlist/218650');
+    const title = await page.evaluate(() => document.querySelector('.tracklist-area .row .title').textContent.trim());
+    const artist = await page.evaluate(() => document.querySelector('.tracklist-area .row .artist').textContent.trim());
+    console.log(`${title} ${artist}`);
 
   } catch (error) {
     console.log('error', error)
